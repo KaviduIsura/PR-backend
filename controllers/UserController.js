@@ -27,9 +27,9 @@ export function getUsers(req, res) {
         list: users,
       });
     })
-    .then((error) => {
+    .catch((error) => {
       res.json({
-        message: error.message,
+        message: "Error",
       });
     });
 }

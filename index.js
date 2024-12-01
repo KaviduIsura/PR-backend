@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routers/UserRouter.js";
 import hostelRouter from "./routers/HostelRouter.js";
+import roomRouter from "./routers/RoomRouter.js";
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ connection.once("open", () => {
 
 app.use("/api/users", userRouter);
 app.use("/api/hostels", hostelRouter);
-
+app.use("/api/rooms", roomRouter);
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });

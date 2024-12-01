@@ -14,3 +14,16 @@ export async function createRoom(req, res) {
     });
   }
 }
+
+export async function getRooms(req, res) {
+  try {
+    const rooms = await Room.find();
+    res.json({
+      list: rooms,
+    });
+  } catch (error) {
+    res.json({
+      message: error.message,
+    });
+  }
+}

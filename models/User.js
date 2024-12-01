@@ -25,6 +25,7 @@ const userSchema = mongoose.Schema({
   role: {
     type: String,
     required: true,
+    default: "student",
   },
   phoneNumber: {
     type: String,

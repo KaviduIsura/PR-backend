@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import userRouter from "./routers/UserRouter.js";
 import hostelRouter from "./routers/HostelRouter.js";
 import roomRouter from "./routers/RoomRouter.js";
+import bookingRouter from "./routers/BookingRouter.js";
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ connection.once("open", () => {
 app.use("/api/users", userRouter);
 app.use("/api/hostels", hostelRouter);
 app.use("/api/rooms", roomRouter);
+app.use("/api/bookings", bookingRouter);
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });

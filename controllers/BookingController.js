@@ -14,3 +14,16 @@ export async function createBooking(req, res) {
     });
   }
 }
+
+export async function getBookings(req, res) {
+  try {
+    const bookings = await Booking.find();
+    res.json({
+      list: bookings,
+    });
+  } catch (error) {
+    res.json({
+      message: error.message,
+    });
+  }
+}

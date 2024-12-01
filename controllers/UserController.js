@@ -17,16 +17,15 @@ export async function createUser(req, res) {
   }
 }
 
-export function getUsers(req, res) {
-  User.find()
-    .then((users) => {
-      res.json({
-        list: users,
-      });
-    })
-    .catch((error) => {
-      res.json({
-        message: "Error",
-      });
+export async function getUsers(req, res) {
+  try {
+    const users = await User.find({});
+    res.json({
+      list: users,
     });
+  } catch (error) {
+    res.json({
+      message: error.message,
+    });
+  }
 }

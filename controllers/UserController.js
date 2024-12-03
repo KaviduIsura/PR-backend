@@ -1,5 +1,6 @@
 import User from "../models/User.js";
-import bcrypt from "bcrypt";
+import bcrypt, { compareSync } from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export async function createUser(req, res) {
   try {
@@ -15,6 +16,29 @@ export async function createUser(req, res) {
       message: error.message,
     });
   }
+}
+export function login(req, res) {
+  User.find({ email: req.body.email }).then((users) => {
+    if (users.length == 0) {
+      res.json({
+        message: "User Not found",
+      });
+    } else {
+      const user = users[0];
+      const isPasswordCorrect = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+    }
+    if (isPasswordCorrect) {
+      const token = jwt.sign({
+        email: User.email,
+        userId: user.userId,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
+    }
+  });
 }
 
 export async function getUsers(req, res) {

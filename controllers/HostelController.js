@@ -37,7 +37,7 @@ export async function getHostals(req, res) {
 
 export async function deleteHostel(req,res){
   try{
-    if(!isAdmin){
+    if(!isAdmin(req)){
       res.json({
         message :"Please login as administrator to add Hostel!"
       })

@@ -44,14 +44,29 @@ export function login(req, res) {
         req.body.password,
         user.password
       );
-    }
-    if (isPasswordCorrect) {
-      const token = jwt.sign({
-        email: User.email,
-        userId: user.userId,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      });
+
+      if (isPasswordCorrect) {
+        const token = jwt.sign(
+          {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            role: user.role,
+            phoneNumber: user.phoneNumber,
+            address: user.address,
+          },
+          "PR-backend-secrete-key-75"
+        );
+
+        res.json({
+          message: "User Loged in",
+          token: token,
+        });
+      } else {
+        res.json({
+          message: "User not Logged in ,Invalid Password ",
+        });
+      }
     }
   });
 }

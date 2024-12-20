@@ -61,3 +61,35 @@ export async function deleteHostel(req,res){
     })
   }
 }
+
+export async function updateHostel(req,res) {
+  try{
+    if(!isAdmin(req)){
+      res.json({
+        message :"Please login as administrator to add Hostel!"
+      })
+      return
+    }
+    const{ hostalId }= req.params
+    const updateData = req.body
+
+    const updateHostel = await Hostel.findOneAndUpdate(
+      {hostalId :hostalId},
+      {$set:updateData},
+      {new:true , runValidators:true}
+    )
+    if(!updateHostel){
+      return res.status(404).json({
+        message: "Hostel not found",
+      });
+    }
+    res.json({
+      message: "Hostel updated successfully",
+      data: updateHostel,
+    })
+  }catch(error){
+    res.status(500).json({
+      message : error.message
+    })
+  }
+}

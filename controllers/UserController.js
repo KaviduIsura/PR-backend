@@ -83,3 +83,5 @@ export async function getUsers(req, res) {
     });
   }
 }
+//kaviduisura@example.com : 1234 -admin
+//jane.doe@example.com : securepassword456 : user

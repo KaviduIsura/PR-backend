@@ -32,8 +32,8 @@ export async function createUser(req, res) {
     });
   }
 }
-export function login(req, res) {
-  User.find({ email: req.body.email }).then((users) => {
+export async function login(req, res) {
+  await User.find({ email: req.body.email }).then((users) => {
     if (users.length == 0) {
       res.json({
         message: "User Not found",

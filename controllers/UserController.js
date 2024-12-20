@@ -1,6 +1,9 @@
 import User from "../models/User.js";
 import bcrypt, { compareSync } from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export async function createUser(req, res) {
   try {
@@ -32,8 +35,8 @@ export async function createUser(req, res) {
     });
   }
 }
-export async function login(req, res) {
-  await User.find({ email: req.body.email }).then((users) => {
+export function login(req, res) {
+   User.find({ email: req.body.email }).then((users) => {
     if (users.length == 0) {
       res.json({
         message: "User Not found",
@@ -55,9 +58,9 @@ export async function login(req, res) {
             phoneNumber: user.phoneNumber,
             address: user.address,
           },
-          "PR-backend-secrete-key-75"
+        process.env.SECRETE
         );
-
+        
         res.json({
           message: "User Loged in",
           token: token,
@@ -82,6 +85,36 @@ export async function getUsers(req, res) {
       message: error.message,
     });
   }
+}
+
+export function isAdmin(req){
+  if(req.user == null){
+    return false
+  }
+  if(req.user.role != "admin"){
+    return false
+  }
+  return true
+}
+
+export function isStudent(req){
+  if(req.user == null ){
+    return false
+  }
+  if(req.user.role != "student"){
+    return false
+  }
+  return true
+}
+
+export function isWarden(req){
+  if(req.user == null){
+    return false
+  }
+  if(req.user.role){
+    return false
+  }
+  return true
 }
 //kaviduisura@example.com : 1234 -admin
 //jane.doe@example.com : securepassword456 : user

@@ -7,6 +7,7 @@ import hostelRouter from "./routers/HostelRouter.js";
 import roomRouter from "./routers/RoomRouter.js";
 import bookingRouter from "./routers/BookingRouter.js";
 import maintainRouter from "./routers/MaintainRouter.js";
+import jwt, { decode } from 'jsonwebtoken'
 
 dotenv.config();
 
@@ -22,6 +23,21 @@ const connection = mongoose.connection;
 
 connection.once("open", () => {
   console.log("Database connected");
+});
+
+// middleware to handle token
+app.use((req, res, next) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+  console.log(token);
+
+  if (token != null) {
+    jwt.verify(token, process.env.SECRETE, (error, decoded) => {
+      if (!error) {
+        req.user = decoded;
+      }
+    });
+  }
+  next();
 });
 
 app.use("/api/users", userRouter);

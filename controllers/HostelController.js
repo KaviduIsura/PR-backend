@@ -36,5 +36,28 @@ export async function getHostals(req, res) {
 }
 
 export async function deleteHostel(req,res){
-  
+  try{
+    if(!isAdmin){
+      res.json({
+        message :"Please login as administrator to add Hostel!"
+      })
+      return
+    }
+    const hostelId = req.params.id
+    const hostel = await Hostel.findById(hostelId)
+    if(!hostel){
+      res.status(404).json({
+        message :"Hostel Not found"
+      })
+    }
+    await Hostel.deleteOne({_id:hostelId})
+
+    res.json({
+      message:"Hostel delete Successfully!"
+    })
+  }catch(error){
+    res.status(500).json({
+      message : error.message
+    })
+  }
 }

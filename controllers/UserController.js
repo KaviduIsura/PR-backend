@@ -10,15 +10,18 @@ export async function createUser(req, res) {
     const newUserData = req.body;
 
     if (newUserData.role == "admin") {
-      if (req.user == null) {
+      if (!req.user || req.user.role !== "admin") {
         res.json({
           message: "Please login as administrator to create admin account",
         });
         return;
       }
-      if (req.user.role != "admin") {
+    }
+
+    if (newUserData.role == "warden") {
+      if (!req.user || req.user.role !== "admin") {
         res.json({
-          message: "Please login as administrator to create admin account",
+          message: "Please login as administrator to create warden account",
         });
         return;
       }
@@ -29,7 +32,7 @@ export async function createUser(req, res) {
     res.json({
       message: "User Created",
     });
-  } catch (error) {
+  }catch (error) {
     res.json({
       message: error.message,
     });
